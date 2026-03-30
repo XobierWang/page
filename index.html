@@ -1,304 +1,680 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="x-ua-compatible" content="ie=edge">
-	<title>王逸暄 - 个人求职主页</title>
-	<meta name="description" content="王逸暄的个人求职简历，研究方向：大数据工程和人工智能应用">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<link rel="icon" sizes="56x56" href="./assets/images/fav-icon/fav.jpg">
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css" media="all" />
-	<link rel="stylesheet" href="assets/css/owl.carousel.min.css" media="all" />
-	<link rel="stylesheet" href="assets/css/animate.css" media="all" />
-	<link rel="stylesheet" href="assets/css/rprogessbar.min.css" media="all" />
-	<link rel="stylesheet" href="assets/css/fontawesome.min.css" media="all" />
-	<link rel="stylesheet" href="assets/css/flaticon.css" media="all" />
-	<link rel="stylesheet" href="assets/css/meanmenu.min.css" media="all" />
-	<link rel="stylesheet" href="assets/css/template-default.css" media="all" />
-	<link rel="stylesheet" href="assets/css/owl.theme.default.min.css" type="text/css" media="all" />
-	<link rel="stylesheet" href="style.css" media="all" />
-	<link rel="stylesheet" href="assets/css/owl.transitions.css" media="all" />
-	<link rel="stylesheet" href="venobox/venobox.css" media="all" />
-	<script src="assets/js/vendor/modernizr-3.5.0.min.js"></script>
-	<link rel="stylesheet" href="assets/css/responsive.css" media="all" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王逸暄的个人主页</title>
     <style>
-        /* 新增：实现单页面的平滑滚动效果 */
+        /* ==========================================
+           1. 全局与 CSS 变量定义
+           ========================================== */
+        :root {
+            --primary-color: #2563eb; /* 活力极客蓝 */
+            --primary-hover: #1d4ed8;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        /* 基础样式重置与平滑滚动 */
         html {
-            scroll-behavior: smooth;
+            scroll-behavior: smooth; /* 开启原生平滑滚动 */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* ==========================================
+           2. 顶部固定导航栏
+           ========================================== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            box-shadow: var(--shadow-sm);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links li a {
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: var(--transition);
+            display: block;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links li a:hover, .nav-links li a.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        /* 移动端汉堡菜单 */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-main);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        /* ==========================================
+           3. 页面主体容器与模块通用样式
+           ========================================== */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 100px 0 60px; /* 上边距留出导航栏高度，防止锚点跳转被遮挡 */
+            border-bottom: 1px solid var(--border-color);
         }
         
-        /* 优化：聚合页面的卡片式设计辅助样式 */
-        .resume-card {
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title::before {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 28px;
+            background-color: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        /* ==========================================
+           4. 首页/个人简介 (Hero Section)
+           ========================================== */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4rem;
+            min-height: 80vh;
+        }
+
+        .hero-content { flex: 1; }
+        .hero-title { font-size: 3rem; font-weight: 800; margin-bottom: 1rem; }
+        .hero-subtitle { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 1.5rem; }
+        .hero-desc { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.8; }
+        
+        .hero-tags { display: flex; gap: 10px; margin-bottom: 2rem; flex-wrap: wrap; }
+        .tag {
+            padding: 0.5rem 1rem;
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* 智能头像加载区 */
+        .hero-avatar-wrapper {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+            border: 8px solid var(--bg-white);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .avatar-fallback {
+            width: 100%;
             height: 100%;
-            margin-bottom: 30px;
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            font-weight: 800;
+            color: #94a3b8;
+            position: absolute;
+            top: 0; left: 0;
         }
-        .resume-card h4 {
-            color: #2563eb;
-            margin-bottom: 20px;
-            font-weight: 600;
-            border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 10px;
+
+        #avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0; left: 0;
+            display: none; 
+            z-index: 2;
         }
-        .project-details {
-            background: #f8fafc;
-            padding: 15px;
+
+        /* ==========================================
+           5. 作品集卡片 (Portfolio Section)
+           ========================================== */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background-color: var(--bg-white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+
+        .project-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .project-role { font-size: 0.9rem; color: var(--primary-color); font-weight: 600; margin-bottom: 1rem; }
+        
+        .tech-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; }
+        .tech-tag {
+            background-color: #eff6ff;
+            color: var(--primary-color);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .project-desc { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+        
+        /* 测试账号展示块样式 */
+        .test-account-box {
+            background-color: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            flex-grow: 1;
+        }
+        
+        .test-account-box p { margin-bottom: 0.3rem; }
+        .test-account-box .highlight { font-weight: 600; color: var(--primary-color); }
+        .test-account-box .note { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; }
+
+        .project-link {
+            display: inline-block;
+            padding: 10px 16px;
+            background-color: var(--primary-color);
+            color: white;
             border-radius: 6px;
-            margin-top: 15px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            transition: var(--transition);
+            margin-top: auto;
         }
-        .project-details p {
-            margin-bottom: 5px;
-            color: #475569;
+        .project-link:hover { background-color: var(--primary-hover); }
+
+        /* ==========================================
+           6. 综合履历区 (Education, Skills, Honors 组合布局)
+           ========================================== */
+        .resume-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .resume-block-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        /* 时间线样式 (教育与荣誉通用) */
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 2rem;
+            border-left: 2px solid var(--border-color);
+        }
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -7px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+        }
+        .timeline-date { font-size: 0.9rem; color: var(--text-muted); font-weight: 600; }
+        .timeline-title { font-size: 1.1rem; font-weight: 700; margin: 0.5rem 0; }
+        .timeline-subtitle { color: var(--primary-color); font-size: 0.95rem; font-weight: 500; margin-bottom: 0.5rem; }
+
+        /* 技能云样式 */
+        .skill-group { margin-bottom: 2rem; }
+        .skill-group h3 { margin-bottom: 1rem; font-size: 1.05rem; color: var(--text-muted); }
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+        .skill-tags span {
+            background: var(--bg-white);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        .skill-tags span:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* 荣誉列表精简版 */
+        .honors-list li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .honors-list li::before {
+            content: "🏆";
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 0.9rem;
+        }
+
+        /* ==========================================
+           7. 个人评价区 (Evaluation)
+           ========================================== */
+        .evaluation-content {
+            background-color: var(--bg-white);
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            border-left: 6px solid var(--primary-color);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-main);
+        }
+
+        /* ==========================================
+           8. 响应式适配 (Mobile & Tablet)
+           ========================================== */
+        @media (max-width: 992px) {
+            .resume-grid { grid-template-columns: 1fr; gap: 2rem; }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: flex; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: var(--shadow-md);
+                text-align: center;
+            }
+            .nav-links.active { display: flex; }
+            .nav-links li a { padding: 1rem 0; }
+            
+            .hero { flex-direction: column-reverse; text-align: center; padding: 2rem 0; min-height: auto; margin-top: 2rem; }
+            .hero-tags { justify-content: center; }
+            .hero-avatar-wrapper { width: 220px; height: 220px; }
+            
+            .portfolio-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
+<body>
 
-<body class="body-light">
+    <header>
+        <div class="nav-container">
+            <a href="#hero" class="logo">WY.</a>
+            <div class="menu-toggle" onclick="toggleMobileMenu()">
+                <span></span><span></span><span></span>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#hero" class="nav-item active">关于我</a></li>
+                <li><a href="#portfolio" class="nav-item">项目经历</a></li>
+                <li><a href="#resume" class="nav-item">综合履历</a></li>
+                <li><a href="#evaluation" class="nav-item">个人评价</a></li>
+            </ul>
+        </div>
+    </header>
 
-	<div id="pre-load">
-		<div id="loader" class="loader">
-			<div class="loader-container">
-				<div class="loader-icon">WY.</div>
-			</div>
-		</div>              
-	</div>
+    <main>
+        <section id="hero" class="section">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">你好，我是王逸暄</h1>
+                    <h2 class="hero-subtitle">全栈思维 / AI Agent / 数据产品</h2>
+                    <div class="hero-tags">
+                        <span class="tag">南京航空航天大学 硕士在读</span>
+                        <span class="tag">wyx13150208836@163.com</span>
+                        <span class="tag" style="background-color: var(--primary-color); color: white; border: none;">寻找AI应用实习机会</span>
+                    </div>
+                    <p class="hero-desc">
+                        大数据工程和人工智能应用方向硕士在读，具备从零到一构建AI应用的能力。深入理解大模型架构，熟练应用 Prompt Engineering 与 RAG 架构优化，并拥有多 Agent 协同管理与工作流开发落地经验。热爱技术，注重产品价值转化与数据驱动思维。
+                    </p>
+                </div>
+                <div class="hero-avatar-wrapper">
+                    <div class="avatar-fallback" id="avatar-fallback">W</div>
+                    <img id="avatar-img" alt="个人头像">
+                </div>
+            </div>
+        </section>
 
-	<header id="sticky-header" class="header-area">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<div class="logo light" style="font-size: 24px; font-weight: bold; padding-top: 20px;">
-						<a href="#home">Wang Yixuan.</a>
-					</div>
-					<nav class="fix light">
-						<ul>
-							<li><a href="#home">首页</a></li>
-							<li><a href="#about">关于我</a></li>
-							<li><a href="#resume">综合背景</a></li>
-							<li><a href="#portfolio">项目经历</a></li>
-							<li><a href="#contact">联系方式</a></li>
-						</ul>
-					</nav>
-				</div>
-			</div>
-		</div>
-	</header>
+        <section id="portfolio" class="section">
+            <h2 class="section-title">核心项目经历</h2>
+            <div class="portfolio-grid" id="portfolio-container">
+                </div>
+        </section>
 
-	<div class="mobile-menu-area d-sm-block d-md-block d-lg-none">
-		<div class="mobile-menu">
-			<nav class="shirin_menu">
-				<ul class="nav_scroll">
-					<li><a href="#home">首页</a></li>
-					<li><a href="#about">关于我</a></li>
-					<li><a href="#resume">综合背景</a></li>
-					<li><a href="#portfolio">项目经历</a></li>
-					<li><a href="#contact">联系方式</a></li>
-				</ul>
-			</nav>
-		</div>
-	</div>
+        <section id="resume" class="section">
+            <h2 class="section-title">综合履历</h2>
+            <div class="resume-grid">
+                <div class="resume-left">
+                    <h3 class="resume-block-title">教育背景</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">2024.09 - 2027.04 (预计)</div>
+                            <h3 class="timeline-title">南京航空航天大学</h3>
+                            <div class="timeline-subtitle">工业工程与管理 (大数据工程和人工智能应用方向) · 硕士研究生</div>
+                            <p style="font-size: 0.95rem; color: var(--text-muted);">主修课程：机器学习与数据分析、预测与决策、系统科学与系统工程等。</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">2020.09 - 2024.06</div>
+                            <h3 class="timeline-title">南京航空航天大学</h3>
+                            <div class="timeline-subtitle">信息管理与信息系统 · 本科学士</div>
+                            <p style="font-size: 0.95rem; color: var(--text-muted);">主修课程：大数据技术与应用、算法设计与分析、数据库原理、数据结构等。</p>
+                        </div>
+                    </div>
 
-	<section id="home" class="banner-area d-flex align-items-center bg-overlay light">
-		<div class="container">
-			<div class="banner-wrapper">
-				<div class="row gutter-y align-items-center">
-					<div class="col-lg-8 col-12">
-						<div class="banner-content light text-left">
-							<h1>你好，我是王逸暄</h1>
-							<p style="font-size: 1.2rem; margin-top: 15px;">寻找 <strong>AI 应用开发 / 数据产品</strong> 实习机会<br>研究方向：大数据工程和人工智能应用</p>
-							<div class="banner-buttons">
-								<a class="btn btn-outline light" href="#portfolio"><i class="fa-solid fa-border-all"></i> 查看项目体验</a>
-								<a class="btn btn-outline light" href="#contact"><i class="fa-solid fa-envelope"></i> 联系我</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+                    <h3 class="resume-block-title" style="margin-top: 3rem;">荣誉与证书</h3>
+                    <ul class="honors-list">
+                        <li><strong>语言能力：</strong> 英语 CET-6 (501)、CET-4 (516)</li>
+                        <li><strong>专业认证：</strong> 计算机网络三级 (优秀)、计算机 C 语言二级、Office 一级 (良好)</li>
+                        <li><strong>荣誉奖项：</strong> 学业奖学金 (二等)、2024 年省优秀志愿者、红十字急救证</li>
+                    </ul>
+                </div>
 
-	<section id="about" class="about-area pt-100 pb-100">
-		<div class="container">
-			<div class="about-wrapper wrapper light">
-				<div class="title-area mb-50">
-					<h3 class="title light">个人评价</h3>
-					<h2 class="title-outline light">About</h2>
-				</div>
-				<div class="about-content">
-					<div class="row align-items-center">
-						<div class="col-lg-12">
-							<div class="author-info light">
-								<p style="font-size: 1.1rem; line-height: 1.8;">
-									我是一名工业工程与管理（大数据方向）专业的硕士研究生。具备扎实的数据处理与人工智能应用开发基础，拥有从零到一构建大模型赋能的智能化系统（AI Agent）的完整经验。<br><br>
-									在技术架构与工程实现上，我追求严密、清晰的逻辑闭环，确保系统的高效与稳定；而在团队协作与日常沟通过程中，我则往往依靠敏锐的直觉与感知力来理解他人特质与需求。这种理性执行与感性共情的结合，让我在跨界沟通与敏捷开发中能够快速响应，有效推动产品的落地与迭代。<br><br>
-									热爱技术创新，渴望在真实的商业与工业场景中，将数据与AI技术转化为切实的业务价值。
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+                <div class="resume-right">
+                    <h3 class="resume-block-title">专业技能</h3>
+                    <div class="skills-container">
+                        <div class="skill-group">
+                            <h3>大模型与 Agent 应用</h3>
+                            <div class="skill-tags">
+                                <span>Transformer架构</span>
+                                <span>Prompt Engineering</span>
+                                <span>RAG架构优化</span>
+                                <span>多Agent协同</span>
+                                <span>LangChain / Dify</span>
+                            </div>
+                        </div>
+                        <div class="skill-group">
+                            <h3>开发与数据处理</h3>
+                            <div class="skill-tags">
+                                <span>Python</span>
+                                <span>FastAPI</span>
+                                <span>SQL</span>
+                                <span>大规模数据清洗</span>
+                                <span>模型效果对标</span>
+                            </div>
+                        </div>
+                        <div class="skill-group">
+                            <h3>实验分析与综合</h3>
+                            <div class="skill-tags">
+                                <span>A/B Test 实验设计</span>
+                                <span>行为日志特征提取</span>
+                                <span>数据可视化</span>
+                                <span>敏捷协作</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-	<section id="resume" class="services-area bg-light pt-100 pb-100">
-		<div class="container">
-			<div class="title-area mb-50 text-center">
-				<h3 class="title light" style="display:inline-block">综合背景</h3>
-			</div>
-			<div class="row gutter-y">
-				
-				<div class="col-lg-4 col-md-12">
-					<div class="resume-card">
-						<h4><i class="fa-solid fa-graduation-cap"></i> 教育背景</h4>
-						<div class="timeline-info mb-4">
-							<h5 style="font-weight: 600;">南京航空航天大学</h5>
-							<p class="text-primary mb-1">硕士 · 工业工程与管理(大数据方向)</p>
-							<span class="text-muted"><i class="fa-solid fa-calendar-days"></i> 2024.09 - 2027.04</span>
-						</div>
-						<div class="timeline-info">
-							<h5 style="font-weight: 600;">南京航空航天大学</h5>
-							<p class="text-primary mb-1">本科 · 信息管理与信息系统</p>
-							<span class="text-muted"><i class="fa-solid fa-calendar-days"></i> 2020.09 - 2024.06</span>
-						</div>
-					</div>
-				</div>
+        <section id="evaluation" class="section">
+            <h2 class="section-title">个人评价</h2>
+            <div class="evaluation-content">
+                <p>
+                    具备极强的好奇心与自驱力，能够快速吸收前沿 AI 技术并将其转化为实际产品能力。在过往项目中，不仅深耕底层逻辑与算法优化，更注重技术落地带来的真实业务指标增长（如系统体验流畅度、响应效率提升）。拥有优秀的抗压能力与跨领域沟通能力，期待在快节奏的互联网团队中持续创造价值。
+                </p>
+            </div>
+        </section>
 
-				<div class="col-lg-4 col-md-12">
-					<div class="resume-card">
-						<h4><i class="fa-solid fa-code"></i> 专业技能</h4>
-						<div class="skill-list" style="line-height: 2.2;">
-							<span class="badge badge-primary" style="background:#e0e7ff; color:#3730a3; padding:8px 12px; font-size:14px; margin-right:5px; margin-bottom:10px; display:inline-block;">大模型架构原理</span>
-							<span class="badge badge-primary" style="background:#e0e7ff; color:#3730a3; padding:8px 12px; font-size:14px; margin-right:5px; margin-bottom:10px; display:inline-block;">Prompt Engineering</span>
-							<span class="badge badge-primary" style="background:#e0e7ff; color:#3730a3; padding:8px 12px; font-size:14px; margin-right:5px; margin-bottom:10px; display:inline-block;">RAG / 多 Agent 协同</span>
-							<span class="badge badge-primary" style="background:#e0e7ff; color:#3730a3; padding:8px 12px; font-size:14px; margin-right:5px; margin-bottom:10px; display:inline-block;">Python / FastAPI</span>
-							<span class="badge badge-primary" style="background:#e0e7ff; color:#3730a3; padding:8px 12px; font-size:14px; margin-right:5px; margin-bottom:10px; display:inline-block;">SQL 数据处理</span>
-							<span class="badge badge-primary" style="background:#e0e7ff; color:#3730a3; padding:8px 12px; font-size:14px; margin-right:5px; margin-bottom:10px; display:inline-block;">A/B Test 实验设计</span>
-							<span class="badge badge-primary" style="background:#e0e7ff; color:#3730a3; padding:8px 12px; font-size:14px; margin-right:5px; margin-bottom:10px; display:inline-block;">Dify / LangChain</span>
-						</div>
-					</div>
-				</div>
+    </main>
 
-				<div class="col-lg-4 col-md-12">
-					<div class="resume-card">
-						<h4><i class="fa-solid fa-award"></i> 荣誉证书</h4>
-						<ul style="padding-left: 0; list-style: none;">
-							<li style="margin-bottom: 15px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 10px;">
-								<i class="fa-solid fa-language text-primary"></i> <strong>英语能力：</strong> CET-6 (501)、CET-4 (516)
-							</li>
-							<li style="margin-bottom: 15px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 10px;">
-								<i class="fa-solid fa-laptop-code text-primary"></i> <strong>专业认证：</strong> 计算机网络三级(优秀)、C语言二级
-							</li>
-							<li style="margin-bottom: 15px;">
-								<i class="fa-solid fa-medal text-primary"></i> <strong>荣誉奖项：</strong> 学业奖学金(二等)、省优秀志愿者
-							</li>
-						</ul>
-					</div>
-				</div>
+    <script>
+        /**
+         * 模块 1：移动端汉堡菜单切换逻辑
+         */
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('nav-links');
+            navLinks.classList.toggle('active');
+        }
 
-			</div>
-		</div>
-	</section>
+        // 点击导航链接后自动收起移动端菜单
+        document.querySelectorAll('.nav-item').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    document.getElementById('nav-links').classList.remove('active');
+                }
+            });
+        });
 
-	<section id="portfolio" class="portfolio-area pt-100 pb-100">
-		<div class="container">
-			<div class="portfolio-wrapper wrapper light">
-				<div class="title-area mb-50 text-center">
-					<h3 class="title light" style="display:inline-block">项目落地展示</h3>
-					<p class="mt-3">以下系统均支持在线访问与体验测试</p>
-				</div>
-				
-				<div class="row justify-content-center">
-					<div class="col-lg-6 col-md-12 mb-4">
-						<div class="resume-card" style="border-top: 4px solid #2563eb;">
-							<h3 style="font-size: 1.4rem; font-weight:bold; margin-bottom: 15px;">AI 助教教学幻灯片系统 (EDULINK Slides)</h3>
-							<p>基于 Agent 架构构建的智能幻灯片生成平台，解决备课转化耗时问题。</p>
-							
-							<div class="project-details">
-								<p><strong><i class="fa-solid fa-link"></i> 体验地址：</strong> <a href="https://edulink-slides.cem.nl.eu.org/login" target="_blank" style="color: #2563eb; text-decoration: underline;">点击访问系统</a></p>
-								<p><strong><i class="fa-solid fa-user"></i> 游客账号：</strong> bot</p>
-								<p><strong><i class="fa-solid fa-key"></i> 游客密码：</strong> bot</p>
-								<p style="margin-top: 10px; font-size: 0.85rem; color: #64748b;">*注：用于新学期课上教学，默认展示学生端 C++ 课程。</p>
-							</div>
-						</div>
-					</div>
+        /**
+         * 模块 2：滚动监听 (Scroll Spy) - 滚动时自动高亮对应导航项
+         */
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('.section');
+            const navItems = document.querySelectorAll('.nav-item');
 
-					<div class="col-lg-6 col-md-12 mb-4">
-						<div class="resume-card" style="border-top: 4px solid #10b981;">
-							<h3 style="font-size: 1.4rem; font-weight:bold; margin-bottom: 15px;">EduLink 智能教学辅助平台</h3>
-							<p>融合多 Agent 协同架构与 RAG 技术的智慧课堂中枢平台。</p>
-							
-							<div class="project-details">
-								<p><strong><i class="fa-solid fa-link"></i> 体验地址：</strong> <a href="https://edulink.cem.nl.eu.org/" target="_blank" style="color: #2563eb; text-decoration: underline;">点击访问系统</a></p>
-								<p><strong><i class="fa-solid fa-user"></i> 游客账号：</strong> faker</p>
-								<p><strong><i class="fa-solid fa-key"></i> 游客密码：</strong> cemlab208</p>
-								<p style="margin-top: 10px; font-size: 0.85rem; color: #64748b;">*注：可通过课程编码切换课程，默认展示：09130040.2025 算法课。</p>
-							</div>
-						</div>
-					</div>
-				</div>
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 150)) { // 150是阈值偏移量
+                    current = section.getAttribute('id');
+                }
+            });
 
-			</div>
-		</div>
-	</section>
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === `#${current}`) {
+                    item.classList.add('active');
+                }
+            });
+        });
 
-	<section id="contact" class="contact-area bg-light pt-100 pb-100">
-		<div class="container">
-			<div class="contact-wrapper wrapper light">
-				<div class="title-area mb-50 text-center">
-					<h3 class="title light" style="display:inline-block">获取简历 & 联系我</h3>
-				</div>
-				<div class="contact-content">
-					<div class="row justify-content-center">
-						<div class="col-lg-8 text-center">
-							<div class="contact-address d-flex justify-content-center flex-wrap gap-4" style="gap: 20px;">
-								<div class="contact-address-info light text-left p-3" style="background:#fff; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.05); min-width: 250px;">
-									<div class="icon float-left mr-3">
-										<i class="fa-solid fa-phone" style="color:#2563eb; font-size:24px;"></i>
-									</div>
-									<div class="text fix">
-										<h4 style="margin-bottom:0; font-size:16px; color:#64748b;">Phone</h4>
-										<span style="font-weight:bold; font-size:18px;">131-5020-8836</span>
-									</div>
-								</div>
-								<div class="contact-address-info light text-left p-3" style="background:#fff; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.05); min-width: 250px;">
-									<div class="icon float-left mr-3">
-										<i class="fa-regular fa-envelope" style="color:#2563eb; font-size:24px;"></i>
-									</div>
-									<div class="text fix">
-										<h4 style="margin-bottom:0; font-size:16px; color:#64748b;">Email Address</h4>
-										<span style="font-weight:bold; font-size:18px;">wyx13150208836@163.com</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+        /**
+         * 模块 3：作品集数据定义与动态渲染
+         */
+        const projects = [
+            {
+                title: "AI 助教教学幻灯片系统 (EDULINK Slides)",
+                techStack: ["大模型(LLM)", "AI Agent", "前端开发"],
+                description: "基于Agent 架构构建的智能幻灯片生成平台。解决教案转化耗时问题，实现智能化备课工作流。",
+                role: "核心开发者",
+                // 新增测试账号对象
+                testAccount: {
+                    account: "bot",
+                    password: "bot",
+                    note: "新学期课上教学，默认展示学生端c++课程。"
+                },
+                demoLink: "https://edulink-slides.cem.nl.eu.org/login" 
+            },
+            {
+                title: "EduLink 智能教学平台",
+                techStack: ["OCR", "BM25+Milvus", "ReAct", "Prompt Engineering"],
+                description: "主导开发基于大模型教学辅助平台。开发 OCR 动态解析；设计双路混合检索与启发式答疑 Agent，大幅提升检索准确率，显著缩减教务响应耗时。",
+                role: "核心开发者 (2023.9-2024.10)",
+                testAccount: {
+                    account: "faker",
+                    password: "cemlab208",
+                    note: "通过课程编码切换课程，默认展示：09130040.2025算法課。"
+                },
+                demoLink: "https://edulink.cem.nl.eu.org/"
+            },
+            {
+                title: "基于多 Agent 架构的智能教学与量化评估",
+                techStack: ["多Agent架构", "HMM-MRT", "A/B Test", "可解释性分析"],
+                description: "构建全局调度及诊断/引导/评估专用 Agent 协同架构。搭建 HMM-MRT 融合推断引擎，通过 A/B 实验完成干预效果因果归因，使课程回看率显著提升。",
+                role: "主要负责人 (2025.1-至今)",
+                testAccount: null,
+                demoLink: ""
+            },
+            {
+                title: "基于NLP的商业标书合规性评估系统",
+                techStack: ["NLP", "数据清洗", "自动化测试"],
+                description: "负责标书合规性评估系统测试与校验。通过 OCR 提取语料，抽样对标大模型与专家结果，输出测试报告驱动模型优化，最终准确率稳定在90%以上。",
+                role: "数据校验与评测员 (2025.3-2025.9)",
+                testAccount: null,
+                demoLink: ""
+            }
+        ];
 
-	<footer class="footer-area">
-		<div class="footer-bottom">
-			<div class="container text-center">
-				<div class="copywrite light pt-4 pb-4">
-					<p>Copyright © 2026 Wang Yixuan. 致力于打造更有温度的 AI 数据应用.</p>
-				</div>
-			</div>
-		</div>
-	</footer>
+        function renderPortfolio() {
+            const container = document.getElementById('portfolio-container');
+            let htmlContent = '';
 
-	<script src="assets/js/vendor/jquery-3.2.1.min.js"></script>
-	<script src="assets/js/bootstrap.min.js"></script>
-	<script src="assets/js/owl.carousel.min.js"></script>
-	<script src="assets/js/theme.js"></script>
+            projects.forEach(proj => {
+                const tagsHtml = proj.techStack.map(tech => `<span class="tech-tag">${tech}</span>`).join('');
+                
+                // 如果存在测试账号，渲染高亮的信息块
+                let accountHtml = '';
+                if (proj.testAccount) {
+                    accountHtml = `
+                        <div class="test-account-box">
+                            <p>👉 <strong>系统体验账号</strong></p>
+                            <p>账号：<span class="highlight">${proj.testAccount.account}</span> &nbsp;&nbsp;|&nbsp;&nbsp; 密码：<span class="highlight">${proj.testAccount.password}</span></p>
+                            <p class="note">注：${proj.testAccount.note}</p>
+                        </div>
+                    `;
+                }
 
+                const linkHtml = proj.demoLink 
+                    ? `<a href="${proj.demoLink}" target="_blank" class="project-link">点击前往体验系统</a>` 
+                    : '';
+
+                htmlContent += `
+                    <div class="project-card">
+                        <h3 class="project-title">${proj.title}</h3>
+                        <div class="project-role">${proj.role}</div>
+                        <div class="tech-stack">${tagsHtml}</div>
+                        <p class="project-desc">${proj.description}</p>
+                        ${accountHtml}
+                        ${linkHtml}
+                    </div>
+                `;
+            });
+
+            container.innerHTML = htmlContent;
+        }
+
+        renderPortfolio();
+
+        /**
+         * 模块 4：智能头像加载逻辑 (优先级探测函数)
+         */
+        const avatarImg = document.getElementById('avatar-img');
+        const avatarFallback = document.getElementById('avatar-fallback');
+        const avatarPaths = ['./avatar.png', './avatar.jpg', './avatar.jpeg'];
+        let currentPathIndex = 0;
+
+        function tryLoadAvatar() {
+            if (currentPathIndex >= avatarPaths.length) return; 
+
+            const img = new Image();
+            img.src = avatarPaths[currentPathIndex];
+
+            img.onload = function() {
+                avatarImg.src = img.src;
+                avatarImg.style.display = 'block';
+                avatarFallback.style.display = 'none';
+            };
+
+            img.onerror = function() {
+                currentPathIndex++;
+                tryLoadAvatar();
+            };
+        }
+
+        tryLoadAvatar();
+    </script>
 </body>
 </html>
