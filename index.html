@@ -1,680 +1,1079 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>王逸暄的个人主页</title>
-    <style>
-        /* ==========================================
-           1. 全局与 CSS 变量定义
-           ========================================== */
-        :root {
-            --primary-color: #2563eb; /* 活力极客蓝 */
-            --primary-hover: #1d4ed8;
-            --bg-light: #f8fafc;
-            --bg-white: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>王逸暄 · AI 应用工程师</title>
 
-        /* 基础样式重置与平滑滚动 */
-        html {
-            scroll-behavior: smooth; /* 开启原生平滑滚动 */
-        }
+  <!-- 引入 Google Fonts：Syne 用于英文标题，优雅且现代 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <style>
+    /* ═══════════════════════════════════════════════
+       CSS 变量：统一管理颜色、字体、间距，方便后期修改
+       ═══════════════════════════════════════════════ */
+    :root {
+      --bg:         #f5f4f0;          /* 温暖米白底色 */
+      --surface:    #ffffff;          /* 卡片白色背景 */
+      --ink:        #1c1c2b;          /* 主文字深色 */
+      --ink-light:  #6b6b80;          /* 辅助文字灰色 */
+      --accent:     #e07a5f;          /* 主强调色：柔和珊瑚橙 */
+      --accent-2:   #3d9bbd;          /* 副强调色：清爽浅蓝 */
+      --accent-3:   #81b29a;          /* 第三色：柔和绿 */
+      --border:     #e4e2db;          /* 分割线颜色 */
+      --shadow:     0 4px 24px rgba(28,28,43,.07);
+      --radius:     14px;
+      --nav-h:      64px;             /* 导航栏高度 */
+      --font-body:  'Syne', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+    /* ═══════════════════════════════════════════════
+       基础重置与全局样式
+       ═══════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
+    html { scroll-behavior: smooth; }
 
-        /* ==========================================
-           2. 顶部固定导航栏
-           ========================================== */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px);
-            box-shadow: var(--shadow-sm);
-            z-index: 1000;
-        }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.75;
+      min-height: 100vh;
+    }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    /* 微妙的背景网格纹理，增加层次感 */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 15% 20%, rgba(224,122,95,.06) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(61,155,189,.06) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            cursor: pointer;
-        }
+    /* ═══════════════════════════════════════════════
+       顶部导航栏
+       ═══════════════════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(245,244,240,.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+    }
 
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
+    /* 左侧 Logo / 姓名 */
+    .nav-logo {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: .04em;
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .nav-logo span { color: var(--accent); }
 
-        .nav-links li a {
-            font-weight: 500;
-            color: var(--text-muted);
-            transition: var(--transition);
-            display: block;
-            padding: 0.5rem 0;
-        }
+    /* 右侧导航按钮列表 */
+    .nav-links {
+      display: flex;
+      gap: 4px;
+      list-style: none;
+    }
 
-        .nav-links li a:hover, .nav-links li a.active {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
-        }
+    /* 每个导航按钮 */
+    .nav-links button {
+      background: none;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink-light);
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      white-space: nowrap;
+    }
+    /* hover 效果：轻微变色 */
+    .nav-links button:hover {
+      background: var(--border);
+      color: var(--ink);
+    }
+    /* 当前激活状态：高亮背景 */
+    .nav-links button.active {
+      background: var(--ink);
+      color: #fff;
+    }
 
-        /* 移动端汉堡菜单 */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-        }
+    /* 汉堡菜单按钮（移动端显示） */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--ink);
+      border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
 
-        .menu-toggle span {
-            width: 25px;
-            height: 3px;
-            background-color: var(--text-main);
-            border-radius: 2px;
-            transition: var(--transition);
-        }
+    /* 移动端展开的抽屉菜单 */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: var(--nav-h);
+      left: 0; right: 0;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 20px;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 99;
+      box-shadow: var(--shadow);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu button {
+      background: none;
+      border: none;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      text-align: left;
+      padding: 10px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .mobile-menu button:hover { background: var(--bg); }
+    .mobile-menu button.active {
+      color: var(--accent);
+      background: rgba(224,122,95,.07);
+    }
 
-        /* ==========================================
-           3. 页面主体容器与模块通用样式
-           ========================================== */
-        main {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
+    /* ═══════════════════════════════════════════════
+       内容主区域
+       ═══════════════════════════════════════════════ */
+    main {
+      position: relative;
+      z-index: 1;
+      padding-top: var(--nav-h); /* 避免被固定导航遮挡 */
+    }
 
-        .section {
-            padding: 100px 0 60px; /* 上边距留出导航栏高度，防止锚点跳转被遮挡 */
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .section:last-child {
-            border-bottom: none;
-        }
+    /* 每个"页面"区块，默认隐藏 */
+    .section {
+      display: none;
+      min-height: calc(100vh - var(--nav-h));
+      padding: 48px 24px 64px;
+      animation: fadeUp .4s ease both; /* 切换时淡入上浮效果 */
+    }
+    /* 激活状态：显示 */
+    .section.active { display: block; }
 
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 3rem;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .section-title::before {
-            content: "";
-            display: inline-block;
-            width: 6px;
-            height: 28px;
-            background-color: var(--primary-color);
-            border-radius: 4px;
-        }
+    /* 淡入上浮动画 */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-        /* ==========================================
-           4. 首页/个人简介 (Hero Section)
-           ========================================== */
-        .hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 4rem;
-            min-height: 80vh;
-        }
+    /* 内容最大宽度居中容器 */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
 
-        .hero-content { flex: 1; }
-        .hero-title { font-size: 3rem; font-weight: 800; margin-bottom: 1rem; }
-        .hero-subtitle { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 1.5rem; }
-        .hero-desc { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.8; }
-        
-        .hero-tags { display: flex; gap: 10px; margin-bottom: 2rem; flex-wrap: wrap; }
-        .tag {
-            padding: 0.5rem 1rem;
-            background-color: var(--bg-white);
-            border: 1px solid var(--border-color);
-            border-radius: 50px;
-            font-size: 0.9rem;
-            color: var(--text-main);
-            font-weight: 500;
-            box-shadow: var(--shadow-sm);
-        }
+    /* ═══════════════════════════════════════════════
+       通用：区块标题样式
+       ═══════════════════════════════════════════════ */
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
 
-        /* 智能头像加载区 */
-        .hero-avatar-wrapper {
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            position: relative;
-            box-shadow: var(--shadow-lg);
-            border: 8px solid var(--bg-white);
-            overflow: hidden;
-            flex-shrink: 0;
-        }
+    /* ═══════════════════════════════════════════════
+       卡片通用样式
+       ═══════════════════════════════════════════════ */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      box-shadow: var(--shadow);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(28,28,43,.11);
+    }
 
-        .avatar-fallback {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 5rem;
-            font-weight: 800;
-            color: #94a3b8;
-            position: absolute;
-            top: 0; left: 0;
-        }
+    /* ════════════════════════════════════════════════
+       § 1  首页 / 个人简介
+       ════════════════════════════════════════════════ */
+    #home {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #home.active { display: flex; }
 
-        #avatar-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 0; left: 0;
-            display: none; 
-            z-index: 2;
-        }
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 48px;
+      align-items: center;
+    }
 
-        /* ==========================================
-           5. 作品集卡片 (Portfolio Section)
-           ========================================== */
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-        }
+    /* 姓名主标题 */
+    .hero-name {
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -.01em;
+    }
+    .hero-name em {
+      font-style: normal;
+      color: var(--accent);
+    }
 
-        .project-card {
-            background-color: var(--bg-white);
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: var(--shadow-md);
-            transition: var(--transition);
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-        }
+    /* 求职方向 badge */
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin: 14px 0 18px;
+      background: rgba(61,155,189,.10);
+      color: var(--accent-2);
+      border: 1px solid rgba(61,155,189,.25);
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .05em;
+    }
+    .hero-badge::before {
+      content: '◉';
+      font-size: 9px;
+      color: var(--accent-2);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; } 50% { opacity: .4; }
+    }
 
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary-color);
-        }
+    /* 个人一句话标签 */
+    .hero-tagline {
+      font-size: 15px;
+      color: var(--ink-light);
+      max-width: 480px;
+      line-height: 1.8;
+    }
+    .hero-tagline strong { color: var(--ink); }
 
-        .project-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .project-role { font-size: 0.9rem; color: var(--primary-color); font-weight: 600; margin-bottom: 1rem; }
-        
-        .tech-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; }
-        .tech-tag {
-            background-color: #eff6ff;
-            color: var(--primary-color);
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
+    /* 联系信息行 */
+    .hero-contacts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .contact-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-size: 13px;
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .contact-chip svg { flex-shrink: 0; }
 
-        .project-desc { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem; }
-        
-        /* 测试账号展示块样式 */
-        .test-account-box {
-            background-color: #f8fafc;
-            border: 1px dashed #cbd5e1;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-            color: var(--text-main);
-            flex-grow: 1;
-        }
-        
-        .test-account-box p { margin-bottom: 0.3rem; }
-        .test-account-box .highlight { font-weight: 600; color: var(--primary-color); }
-        .test-account-box .note { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; }
+    /* 头像区域 */
+    .avatar-wrap {
+      flex-shrink: 0;
+    }
 
-        .project-link {
-            display: inline-block;
-            padding: 10px 16px;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            text-align: center;
-            transition: var(--transition);
-            margin-top: auto;
-        }
-        .project-link:hover { background-color: var(--primary-hover); }
+    /* 头像容器：固定尺寸，圆形裁剪 */
+    .avatar {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      border: 3px solid var(--border);
+      box-shadow: 0 0 0 6px rgba(224,122,95,.12);
+      overflow: hidden;
+      background: linear-gradient(135deg, #e8d5cc 0%, #d0e8e0 100%); /* 优雅占位背景 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px; /* 占位 emoji */
+      position: relative;
+    }
+    /* 头像图片加载成功后填满容器 */
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 50%;
+    }
+    /* 当图片未加载时显示首字母占位 */
+    .avatar-placeholder {
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 54px;
+      line-height: 1;
+      user-select: none;
+    }
 
-        /* ==========================================
-           6. 综合履历区 (Education, Skills, Honors 组合布局)
-           ========================================== */
-        .resume-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-        }
+    /* ════════════════════════════════════════════════
+       § 2  项目经历
+       ════════════════════════════════════════════════ */
+    .timeline { display: flex; flex-direction: column; gap: 24px; }
 
-        .resume-block-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: var(--text-main);
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--border-color);
-        }
+    .proj-card { position: relative; }
 
-        /* 时间线样式 (教育与荣誉通用) */
-        .timeline-item {
-            position: relative;
-            padding-left: 2rem;
-            margin-bottom: 2rem;
-            border-left: 2px solid var(--border-color);
-        }
-        .timeline-item::before {
-            content: "";
-            position: absolute;
-            left: -7px;
-            top: 0;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: var(--primary-color);
-        }
-        .timeline-date { font-size: 0.9rem; color: var(--text-muted); font-weight: 600; }
-        .timeline-title { font-size: 1.1rem; font-weight: 700; margin: 0.5rem 0; }
-        .timeline-subtitle { color: var(--primary-color); font-size: 0.95rem; font-weight: 500; margin-bottom: 0.5rem; }
+    /* 项目标题行 */
+    .proj-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .proj-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.35;
+    }
+    /* 时间 tag */
+    .proj-date {
+      flex-shrink: 0;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(224,122,95,.10);
+      border: 1px solid rgba(224,122,95,.2);
+      border-radius: 999px;
+      padding: 3px 12px;
+      white-space: nowrap;
+    }
+    .proj-role {
+      font-size: 12.5px;
+      color: var(--ink-light);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
 
-        /* 技能云样式 */
-        .skill-group { margin-bottom: 2rem; }
-        .skill-group h3 { margin-bottom: 1rem; font-size: 1.05rem; color: var(--text-muted); }
-        .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; }
-        .skill-tags span {
-            background: var(--bg-white);
-            border: 1px solid var(--border-color);
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-        .skill-tags span:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        /* 荣誉列表精简版 */
-        .honors-list li {
-            margin-bottom: 1rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-        .honors-list li::before {
-            content: "🏆";
-            position: absolute;
-            left: 0;
-            top: 2px;
-            font-size: 0.9rem;
-        }
+    /* 项目详情列表 */
+    .proj-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .proj-list li {
+      display: flex;
+      gap: 10px;
+      font-size: 13.5px;
+      color: var(--ink);
+      line-height: 1.7;
+    }
+    /* 自定义 bullet */
+    .proj-list li::before {
+      content: '▸';
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 2px;
+      font-size: 12px;
+    }
+    .proj-list li strong { color: var(--ink); font-weight: 700; }
 
-        /* ==========================================
-           7. 个人评价区 (Evaluation)
-           ========================================== */
-        .evaluation-content {
-            background-color: var(--bg-white);
-            padding: 3rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow-md);
-            border-left: 6px solid var(--primary-color);
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--text-main);
-        }
+    /* 技术栈 tags 行 */
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--border);
+    }
+    .tech-tag {
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 6px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--ink-light);
+      letter-spacing: .03em;
+      transition: background .15s, color .15s;
+    }
+    .tech-tag:hover {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
 
-        /* ==========================================
-           8. 响应式适配 (Mobile & Tablet)
-           ========================================== */
-        @media (max-width: 992px) {
-            .resume-grid { grid-template-columns: 1fr; gap: 2rem; }
-        }
+    /* ════════════════════════════════════════════════
+       § 3  教育背景
+       ════════════════════════════════════════════════ */
+    .edu-grid { display: flex; flex-direction: column; gap: 20px; }
 
-        @media (max-width: 768px) {
-            .menu-toggle { display: flex; }
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 70px;
-                left: 0;
-                width: 100%;
-                background: white;
-                flex-direction: column;
-                padding: 1rem 0;
-                box-shadow: var(--shadow-md);
-                text-align: center;
-            }
-            .nav-links.active { display: flex; }
-            .nav-links li a { padding: 1rem 0; }
-            
-            .hero { flex-direction: column-reverse; text-align: center; padding: 2rem 0; min-height: auto; margin-top: 2rem; }
-            .hero-tags { justify-content: center; }
-            .hero-avatar-wrapper { width: 220px; height: 220px; }
-            
-            .portfolio-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+    .edu-card { display: flex; gap: 20px; align-items: flex-start; }
+
+    /* 左侧时间轴圆点与竖线 */
+    .edu-dot-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      flex-shrink: 0;
+      padding-top: 4px;
+    }
+    .edu-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 3px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--accent);
+      flex-shrink: 0;
+    }
+    .edu-line {
+      width: 2px;
+      flex: 1;
+      min-height: 40px;
+      background: var(--border);
+      margin-top: 6px;
+    }
+
+    .edu-info { flex: 1; padding-bottom: 8px; }
+    .edu-school { font-size: 17px; font-weight: 800; color: var(--ink); }
+    .edu-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin: 6px 0 10px;
+    }
+    .edu-degree {
+      font-size: 13px;
+      font-weight: 700;
+      background: rgba(129,178,154,.15);
+      color: var(--accent-3);
+      border: 1px solid rgba(129,178,154,.3);
+      border-radius: 999px;
+      padding: 2px 12px;
+    }
+    .edu-period {
+      font-size: 12.5px;
+      color: var(--ink-light);
+      font-weight: 600;
+    }
+    .edu-courses {
+      font-size: 13px;
+      color: var(--ink-light);
+      line-height: 1.75;
+    }
+    .edu-courses strong { color: var(--ink); font-weight: 700; }
+
+    /* ════════════════════════════════════════════════
+       § 4  专业技能
+       ════════════════════════════════════════════════ */
+    .skills-grid { display: flex; flex-direction: column; gap: 28px; }
+
+    .skill-group-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    /* 彩色小方块标记 */
+    .skill-group-title .dot {
+      width: 8px; height: 8px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* 技能 pill */
+    .skill-pill {
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 15px;
+      border-radius: 999px;
+      border: 1.5px solid transparent;
+      cursor: default;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .skill-pill:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+    }
+
+    /* 三个分类的配色 */
+    .skill-pill.orange {
+      background: rgba(224,122,95,.10);
+      color: #c4623f;
+      border-color: rgba(224,122,95,.25);
+    }
+    .skill-pill.blue {
+      background: rgba(61,155,189,.10);
+      color: #2e7fa6;
+      border-color: rgba(61,155,189,.25);
+    }
+    .skill-pill.green {
+      background: rgba(129,178,154,.12);
+      color: #4e8a6a;
+      border-color: rgba(129,178,154,.3);
+    }
+
+    /* 个人优势卡片 */
+    .advantage-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .adv-card {
+      padding: 22px 24px;
+    }
+    .adv-icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+      line-height: 1;
+    }
+    .adv-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .adv-desc {
+      font-size: 13px;
+      color: var(--ink-light);
+      line-height: 1.75;
+    }
+
+    /* ════════════════════════════════════════════════
+       § 5  页脚
+       ════════════════════════════════════════════════ */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 20px 24px 32px;
+      font-size: 12px;
+      color: var(--ink-light);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ════════════════════════════════════════════════
+       响应式：移动端适配
+       ════════════════════════════════════════════════ */
+    @media (max-width: 680px) {
+      /* 导航：隐藏链接列表，显示汉堡菜单 */
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      nav { padding: 0 20px; }
+
+      .section { padding: 32px 16px 48px; }
+
+      /* 首页：改为垂直堆叠 */
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        text-align: center;
+      }
+      /* 移动端头像居中 */
+      .avatar-wrap { order: -1; margin: 0 auto; }
+      .avatar { width: 120px; height: 120px; }
+      .avatar-placeholder { font-size: 40px; }
+
+      .hero-contacts { justify-content: center; }
+
+      /* 项目卡片内边距收紧 */
+      .card { padding: 20px 18px; }
+
+      /* 教育时间轴适配 */
+      .edu-card { flex-direction: column; gap: 8px; }
+      .edu-dot-wrap { flex-direction: row; padding-top: 0; }
+      .edu-line { width: 40px; height: 2px; min-height: unset; margin-top: 0; margin-left: 6px; }
+
+      /* 个人优势：单列 */
+      .advantage-cards { grid-template-columns: 1fr; }
+
+      .proj-header { flex-direction: column; gap: 6px; }
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <div class="nav-container">
-            <a href="#hero" class="logo">WY.</a>
-            <div class="menu-toggle" onclick="toggleMobileMenu()">
-                <span></span><span></span><span></span>
+  <!-- ══════════════════════════════════════════
+       顶部固定导航栏
+       ══════════════════════════════════════════ -->
+  <nav>
+    <a class="nav-logo" onclick="showSection('home')" role="button" tabindex="0">
+      王逸暄<span>.</span>
+    </a>
+
+    <!-- PC 端导航按钮 -->
+    <ul class="nav-links" id="navLinks">
+      <li><button onclick="showSection('home')"   class="active" data-section="home">首页</button></li>
+      <li><button onclick="showSection('projects')"              data-section="projects">项目经历</button></li>
+      <li><button onclick="showSection('education')"             data-section="education">教育背景</button></li>
+      <li><button onclick="showSection('skills')"                data-section="skills">专业技能</button></li>
+    </ul>
+
+    <!-- 移动端汉堡按钮 -->
+    <button class="hamburger" id="hamburgerBtn" aria-label="菜单" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- 移动端下拉菜单 -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button onclick="showSection('home');toggleMobileMenu()"     class="active" data-mobile="home">首页</button>
+    <button onclick="showSection('projects');toggleMobileMenu()"              data-mobile="projects">项目经历</button>
+    <button onclick="showSection('education');toggleMobileMenu()"             data-mobile="education">教育背景</button>
+    <button onclick="showSection('skills');toggleMobileMenu()"                data-mobile="skills">专业技能</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       主内容区域
+       ══════════════════════════════════════════ -->
+  <main>
+
+    <!-- § 1  首页 / 个人简介 -->
+    <section id="home" class="section active">
+      <div class="container">
+        <div class="hero">
+
+          <!-- 左侧：文字信息 -->
+          <div class="hero-text">
+            <h1 class="hero-name">王逸<em>暄</em></h1>
+
+            <div class="hero-badge">AI 应用工程师</div>
+
+            <p class="hero-tagline">
+              南京航空航天大学 211 本硕，专注 <strong>Multi-Agent 系统</strong> 与 <strong>RAG 检索增强生成</strong>，
+              具备从系统设计到线上灰度部署的完整工程落地经验。
+              拥有极强的自驱力与信息检索能力，能在多线并行项目中高效推进。
+            </p>
+
+            <!-- 联系方式 -->
+            <div class="hero-contacts">
+              <div class="contact-chip">
+                <!-- 手机图标 -->
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                  <rect x="5" y="2" width="14" height="20" rx="2"/>
+                  <circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/>
+                </svg>
+                13150208836
+              </div>
+              <div class="contact-chip">
+                <!-- 邮件图标 -->
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2"/>
+                  <path d="m2 7 10 7 10-7"/>
+                </svg>
+                wyx13150208836@163.com
+              </div>
+              <div class="contact-chip">
+                <!-- 定位图标 -->
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                  <path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/>
+                  <circle cx="12" cy="9" r="2.5"/>
+                </svg>
+                南京 · 周内到岗
+              </div>
             </div>
-            <ul class="nav-links" id="nav-links">
-                <li><a href="#hero" class="nav-item active">关于我</a></li>
-                <li><a href="#portfolio" class="nav-item">项目经历</a></li>
-                <li><a href="#resume" class="nav-item">综合履历</a></li>
-                <li><a href="#evaluation" class="nav-item">个人评价</a></li>
+          </div><!-- /hero-text -->
+
+          <!-- 右侧：头像 -->
+          <div class="avatar-wrap">
+            <!--
+              头像占位容器：
+              - 背景渐变色在图片未加载时保持美观
+              - avatar-placeholder 文字作为备用显示
+              - JS 会尝试加载本地图片并隐藏占位文字
+            -->
+            <div class="avatar" id="avatarBox">
+              <span class="avatar-placeholder" id="avatarPlaceholder">王</span>
+              <!-- 图片标签由 JS 动态插入 -->
+            </div>
+          </div>
+
+        </div><!-- /hero -->
+      </div>
+    </section>
+
+    <!-- § 2  项目经历 -->
+    <section id="projects" class="section">
+      <div class="container">
+        <p class="section-title">项目经历</p>
+
+        <div class="timeline">
+
+          <!-- 项目 1 -->
+          <div class="card proj-card">
+            <div class="proj-header">
+              <div class="proj-name">Multi-agent 协作与图式集体记忆的编程教辅引导式问答系统</div>
+              <div class="proj-date">2025.04 – 2026.03</div>
+            </div>
+            <div class="proj-role">核心开发者 · 教辅多智能体系统（MAS）</div>
+
+            <ul class="proj-list">
+              <li>
+                <span><strong>项目背景：</strong>面向编程入门课程的教辅多智能体系统，覆盖学生提问→苏格拉底式引导回答场景，提升学生自主思考能力。</span>
+              </li>
+              <li>
+                <span><strong>教辅工作流设计：</strong>自研意图分析者→知识检索者→讲解者→反例追问者→风格审校者五段 Agent 流水线，审校不通过回退重写，最多 2 次强制收敛；整链路 token 约 8.6k/问答。</span>
+              </li>
+              <li>
+                <span><strong>三层图式集体记忆：</strong>自研 insight/query/interaction 三层有向图记录跨问答教学经验链，双向遍历检索；单次问答有效记忆 token 从约 1.6 万压缩至约 2200，大幅降低窗口压力。</span>
+              </li>
+              <li>
+                <span><strong>插件化集成与图自演化：</strong>统一抽象基类，零侵入接入 3 类教辅 MAS 框架；问答结束后自动写回三层图，经验通过 FINCH 聚类动态合并演化。</span>
+              </li>
+              <li>
+                <span><strong>线上成果：</strong>灰度运行 4 周，相似误解的经验复用率从 <strong>6.9% 升至 36.4%</strong>，效果显著。</span>
+              </li>
             </ul>
+
+            <div class="tech-stack">
+              <span class="tech-tag">text-embedding-v3</span>
+              <span class="tech-tag">qwen-plus</span>
+              <span class="tech-tag">networkx</span>
+              <span class="tech-tag">Chroma</span>
+              <span class="tech-tag">FINCH 聚类</span>
+              <span class="tech-tag">有向多重图</span>
+              <span class="tech-tag">Multi-Agent</span>
+              <span class="tech-tag">agent-memory</span>
+            </div>
+          </div>
+
+          <!-- 项目 2 -->
+          <div class="card proj-card">
+            <div class="proj-header">
+              <div class="proj-name">商业标书合规性评估与效果对标项目</div>
+              <div class="proj-date">2025.03 – 2025.12</div>
+            </div>
+            <div class="proj-role">核心开发者 · 多模态文档理解与 RAG 系统</div>
+
+            <ul class="proj-list">
+              <li>
+                <span><strong>项目背景：</strong>针对扫描件、复杂分项报价表等图文混排投标文档，传统 TextRAG 因 OCR 误差导致合规性漏判与误判；方案在检索与生成两阶段直接使用页面图像，保留图表与版式信息。</span>
+              </li>
+              <li>
+                <span><strong>页面向量检索器：</strong>双塔页级检索，文本问题与页面图像统一由 VLM 编码，基于 InfoNCE + in-batch negatives 微调；<strong>MRR@10 达 77.91</strong>，优于 MiniCPMOCR(74.78)、SigLIP(71.68)、ColPali(76.54)。</span>
+              </li>
+              <li>
+                <span><strong>多页视觉生成器：</strong>对 top-k 页面采用单图拼接、逐页生成加权选择及 MiniCPMV 2.6/GPT-4o 多图推理；多图 MiniCPMV 2.6 top-3 平均准确率 <strong>56.12</strong>，优于 GPT-4o(OCR) 的 45.91。</span>
+              </li>
+              <li>
+                <span><strong>训练数据构建：</strong>整合内部多类型文档问答对并脱敏，用 GPT-4o 按页生成多角度 query-answer（每页≤6 对）扩充，过滤模糊问法。</span>
+              </li>
+              <li>
+                <span><strong>工程收益：</strong>信息图/宣传类子集准确率由 TextRAG ~25% 提升至 ~51%；离线单页处理 121ms，较 OCR 链路降低约 <strong>58%</strong>。</span>
+              </li>
+            </ul>
+
+            <div class="tech-stack">
+              <span class="tech-tag">Transformers</span>
+              <span class="tech-tag">MiniCPMV</span>
+              <span class="tech-tag">SigLIP</span>
+              <span class="tech-tag">InfoNCE</span>
+              <span class="tech-tag">Dense Retrieval</span>
+              <span class="tech-tag">VLM</span>
+              <span class="tech-tag">GPT-4o</span>
+              <span class="tech-tag">RAG</span>
+              <span class="tech-tag">OCR</span>
+            </div>
+          </div>
+
+        </div><!-- /timeline -->
+      </div>
+    </section>
+
+    <!-- § 3  教育背景 -->
+    <section id="education" class="section">
+      <div class="container">
+        <p class="section-title">教育背景</p>
+
+        <div class="edu-grid">
+
+          <!-- 硕士 -->
+          <div class="edu-card">
+            <div class="edu-dot-wrap">
+              <div class="edu-dot"></div>
+              <div class="edu-line"></div>
+            </div>
+            <div class="edu-info">
+              <div class="edu-school">南京航空航天大学</div>
+              <div class="edu-meta">
+                <span class="edu-degree">硕士研究生</span>
+                <span class="edu-period">工业工程与管理（大数据方向） · 2024.09 – 2027.04</span>
+              </div>
+              <div class="edu-courses">
+                <strong>主修课程：</strong>机器学习与数据分析、预测与决策、系统科学与系统工程、工程伦理、流程优化与设计
+              </div>
+            </div>
+          </div>
+
+          <!-- 本科 -->
+          <div class="edu-card">
+            <div class="edu-dot-wrap">
+              <div class="edu-dot" style="background:var(--accent-2);box-shadow:0 0 0 2px var(--accent-2)"></div>
+            </div>
+            <div class="edu-info">
+              <div class="edu-school">南京航空航天大学</div>
+              <div class="edu-meta">
+                <span class="edu-degree" style="background:rgba(61,155,189,.10);color:var(--accent-2);border-color:rgba(61,155,189,.25)">本科</span>
+                <span class="edu-period">信息管理与信息系统 · 2020.09 – 2024.06</span>
+              </div>
+              <div class="edu-courses">
+                <strong>主修课程：</strong>大数据技术与应用、算法设计与分析、数据库原理、操作系统、数据结构、信息安全技术
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /edu-grid -->
+
+        <!-- 院校简介 -->
+        <div class="card" style="margin-top:28px; background: linear-gradient(135deg,rgba(224,122,95,.05),rgba(61,155,189,.05));">
+          <div style="font-size:13px;color:var(--ink-light);line-height:1.8">
+            🏫 <strong style="color:var(--ink)">南京航空航天大学</strong>，简称"南航"，国家"211工程"重点高校、
+            "双一流"建设高校，工科实力雄厚，信息与管理类学科具有深厚的工程背景与科研资源。
+          </div>
         </div>
-    </header>
 
-    <main>
-        <section id="hero" class="section">
-            <div class="hero">
-                <div class="hero-content">
-                    <h1 class="hero-title">你好，我是王逸暄</h1>
-                    <h2 class="hero-subtitle">全栈思维 / AI Agent / 数据产品</h2>
-                    <div class="hero-tags">
-                        <span class="tag">南京航空航天大学 硕士在读</span>
-                        <span class="tag">wyx13150208836@163.com</span>
-                        <span class="tag" style="background-color: var(--primary-color); color: white; border: none;">寻找AI应用实习机会</span>
-                    </div>
-                    <p class="hero-desc">
-                        大数据工程和人工智能应用方向硕士在读，具备从零到一构建AI应用的能力。深入理解大模型架构，熟练应用 Prompt Engineering 与 RAG 架构优化，并拥有多 Agent 协同管理与工作流开发落地经验。热爱技术，注重产品价值转化与数据驱动思维。
-                    </p>
-                </div>
-                <div class="hero-avatar-wrapper">
-                    <div class="avatar-fallback" id="avatar-fallback">W</div>
-                    <img id="avatar-img" alt="个人头像">
-                </div>
+      </div>
+    </section>
+
+    <!-- § 4  专业技能 -->
+    <section id="skills" class="section">
+      <div class="container">
+        <p class="section-title">专业技能</p>
+
+        <div class="skills-grid">
+
+          <!-- 技能分组 1：大模型与 NLP -->
+          <div class="card">
+            <div class="skill-group-title">
+              <span class="dot" style="background:var(--accent)"></span>
+              大模型 &amp; NLP
             </div>
-        </section>
-
-        <section id="portfolio" class="section">
-            <h2 class="section-title">核心项目经历</h2>
-            <div class="portfolio-grid" id="portfolio-container">
-                </div>
-        </section>
-
-        <section id="resume" class="section">
-            <h2 class="section-title">综合履历</h2>
-            <div class="resume-grid">
-                <div class="resume-left">
-                    <h3 class="resume-block-title">教育背景</h3>
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-date">2024.09 - 2027.04 (预计)</div>
-                            <h3 class="timeline-title">南京航空航天大学</h3>
-                            <div class="timeline-subtitle">工业工程与管理 (大数据工程和人工智能应用方向) · 硕士研究生</div>
-                            <p style="font-size: 0.95rem; color: var(--text-muted);">主修课程：机器学习与数据分析、预测与决策、系统科学与系统工程等。</p>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-date">2020.09 - 2024.06</div>
-                            <h3 class="timeline-title">南京航空航天大学</h3>
-                            <div class="timeline-subtitle">信息管理与信息系统 · 本科学士</div>
-                            <p style="font-size: 0.95rem; color: var(--text-muted);">主修课程：大数据技术与应用、算法设计与分析、数据库原理、数据结构等。</p>
-                        </div>
-                    </div>
-
-                    <h3 class="resume-block-title" style="margin-top: 3rem;">荣誉与证书</h3>
-                    <ul class="honors-list">
-                        <li><strong>语言能力：</strong> 英语 CET-6 (501)、CET-4 (516)</li>
-                        <li><strong>专业认证：</strong> 计算机网络三级 (优秀)、计算机 C 语言二级、Office 一级 (良好)</li>
-                        <li><strong>荣誉奖项：</strong> 学业奖学金 (二等)、2024 年省优秀志愿者、红十字急救证</li>
-                    </ul>
-                </div>
-
-                <div class="resume-right">
-                    <h3 class="resume-block-title">专业技能</h3>
-                    <div class="skills-container">
-                        <div class="skill-group">
-                            <h3>大模型与 Agent 应用</h3>
-                            <div class="skill-tags">
-                                <span>Transformer架构</span>
-                                <span>Prompt Engineering</span>
-                                <span>RAG架构优化</span>
-                                <span>多Agent协同</span>
-                                <span>LangChain / Dify</span>
-                            </div>
-                        </div>
-                        <div class="skill-group">
-                            <h3>开发与数据处理</h3>
-                            <div class="skill-tags">
-                                <span>Python</span>
-                                <span>FastAPI</span>
-                                <span>SQL</span>
-                                <span>大规模数据清洗</span>
-                                <span>模型效果对标</span>
-                            </div>
-                        </div>
-                        <div class="skill-group">
-                            <h3>实验分析与综合</h3>
-                            <div class="skill-tags">
-                                <span>A/B Test 实验设计</span>
-                                <span>行为日志特征提取</span>
-                                <span>数据可视化</span>
-                                <span>敏捷协作</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="skill-tags">
+              <span class="skill-pill orange">Transformer</span>
+              <span class="skill-pill orange">RAG</span>
+              <span class="skill-pill orange">Prompt Engineering</span>
+              <span class="skill-pill orange">SFT / LoRA 微调</span>
+              <span class="skill-pill orange">Multi-Agent</span>
+              <span class="skill-pill orange">LangChain</span>
+              <span class="skill-pill orange">Dify</span>
             </div>
-        </section>
+          </div>
 
-        <section id="evaluation" class="section">
-            <h2 class="section-title">个人评价</h2>
-            <div class="evaluation-content">
-                <p>
-                    具备极强的好奇心与自驱力，能够快速吸收前沿 AI 技术并将其转化为实际产品能力。在过往项目中，不仅深耕底层逻辑与算法优化，更注重技术落地带来的真实业务指标增长（如系统体验流畅度、响应效率提升）。拥有优秀的抗压能力与跨领域沟通能力，期待在快节奏的互联网团队中持续创造价值。
-                </p>
+          <!-- 技能分组 2：开发与工程 -->
+          <div class="card">
+            <div class="skill-group-title">
+              <span class="dot" style="background:var(--accent-2)"></span>
+              开发 &amp; 工程
             </div>
-        </section>
+            <div class="skill-tags">
+              <span class="skill-pill blue">Python</span>
+              <span class="skill-pill blue">FastAPI</span>
+              <span class="skill-pill blue">SQL</span>
+              <span class="skill-pill blue">Git</span>
+            </div>
+          </div>
 
-    </main>
+          <!-- 技能分组 3：数据与向量检索 -->
+          <div class="card">
+            <div class="skill-group-title">
+              <span class="dot" style="background:var(--accent-3)"></span>
+              数据 &amp; 向量检索
+            </div>
+            <div class="skill-tags">
+              <span class="skill-pill green">Chroma</span>
+              <span class="skill-pill green">FAISS</span>
+              <span class="skill-pill green">InfoNCE</span>
+              <span class="skill-pill green">Dense Retrieval</span>
+              <span class="skill-pill green">数据清洗</span>
+              <span class="skill-pill green">效果评估</span>
+            </div>
+          </div>
 
-    <script>
-        /**
-         * 模块 1：移动端汉堡菜单切换逻辑
-         */
-        function toggleMobileMenu() {
-            const navLinks = document.getElementById('nav-links');
-            navLinks.classList.toggle('active');
-        }
+        </div><!-- /skills-grid -->
 
-        // 点击导航链接后自动收起移动端菜单
-        document.querySelectorAll('.nav-item').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
-                    document.getElementById('nav-links').classList.remove('active');
-                }
-            });
-        });
+        <!-- 个人优势 -->
+        <p class="section-title" style="margin-top:40px">个人优势</p>
+        <div class="advantage-cards">
+          <div class="card adv-card">
+            <div class="adv-icon">🔍</div>
+            <div class="adv-title">信息检索能力</div>
+            <div class="adv-desc">
+              善用 Google / GitHub / StackOverflow 解决技术难题。曾独立阅读 Llama-Factory 官方文档，
+              在 2 天内复现微调 + 推理 + 模型合并的完整工作流方案。
+            </div>
+          </div>
+          <div class="card adv-card">
+            <div class="adv-icon">⛰️</div>
+            <div class="adv-title">持续攻坚执行力</div>
+            <div class="adv-desc">
+              日常锻炼，爱好爬山，依托强健的体魄适配高强度科研节奏。曾同时推进纵向科研与横向落地项目，
+              完成从方案设计到系统线上的全流程。
+            </div>
+          </div>
+        </div>
 
-        /**
-         * 模块 2：滚动监听 (Scroll Spy) - 滚动时自动高亮对应导航项
-         */
-        window.addEventListener('scroll', () => {
-            let current = '';
-            const sections = document.querySelectorAll('.section');
-            const navItems = document.querySelectorAll('.nav-item');
+      </div>
+    </section>
 
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (pageYOffset >= (sectionTop - 150)) { // 150是阈值偏移量
-                    current = section.getAttribute('id');
-                }
-            });
+  </main><!-- /main -->
 
-            navItems.forEach(item => {
-                item.classList.remove('active');
-                if (item.getAttribute('href') === `#${current}`) {
-                    item.classList.add('active');
-                }
-            });
-        });
+  <!-- 页脚 -->
+  <footer>
+    王逸暄 · AI 应用工程师 · 南京航空航天大学
+  </footer>
 
-        /**
-         * 模块 3：作品集数据定义与动态渲染
-         */
-        const projects = [
-            {
-                title: "AI 助教教学幻灯片系统 (EDULINK Slides)",
-                techStack: ["大模型(LLM)", "AI Agent", "前端开发"],
-                description: "基于Agent 架构构建的智能幻灯片生成平台。解决教案转化耗时问题，实现智能化备课工作流。",
-                role: "核心开发者",
-                // 新增测试账号对象
-                testAccount: {
-                    account: "bot",
-                    password: "bot",
-                    note: "新学期课上教学，默认展示学生端c++课程。"
-                },
-                demoLink: "https://edulink-slides.cem.nl.eu.org/login" 
-            },
-            {
-                title: "EduLink 智能教学平台",
-                techStack: ["OCR", "BM25+Milvus", "ReAct", "Prompt Engineering"],
-                description: "主导开发基于大模型教学辅助平台。开发 OCR 动态解析；设计双路混合检索与启发式答疑 Agent，大幅提升检索准确率，显著缩减教务响应耗时。",
-                role: "核心开发者 (2023.9-2024.10)",
-                testAccount: {
-                    account: "faker",
-                    password: "cemlab208",
-                    note: "通过课程编码切换课程，默认展示：09130040.2025算法課。"
-                },
-                demoLink: "https://edulink.cem.nl.eu.org/"
-            },
-            {
-                title: "基于多 Agent 架构的智能教学与量化评估",
-                techStack: ["多Agent架构", "HMM-MRT", "A/B Test", "可解释性分析"],
-                description: "构建全局调度及诊断/引导/评估专用 Agent 协同架构。搭建 HMM-MRT 融合推断引擎，通过 A/B 实验完成干预效果因果归因，使课程回看率显著提升。",
-                role: "主要负责人 (2025.1-至今)",
-                testAccount: null,
-                demoLink: ""
-            },
-            {
-                title: "基于NLP的商业标书合规性评估系统",
-                techStack: ["NLP", "数据清洗", "自动化测试"],
-                description: "负责标书合规性评估系统测试与校验。通过 OCR 提取语料，抽样对标大模型与专家结果，输出测试报告驱动模型优化，最终准确率稳定在90%以上。",
-                role: "数据校验与评测员 (2025.3-2025.9)",
-                testAccount: null,
-                demoLink: ""
-            }
-        ];
+  <!-- ══════════════════════════════════════════
+       JavaScript：导航切换 + 头像探测
+       ══════════════════════════════════════════ -->
+  <script>
+    /* ─────────────────────────────────────────
+       1. 栏目切换函数
+          接收目标 section 的 id，
+          切换显示内容并同步高亮导航按钮
+       ───────────────────────────────────────── */
+    function showSection(id) {
+      // 隐藏所有 section
+      document.querySelectorAll('.section').forEach(el => {
+        el.classList.remove('active');
+      });
+      // 显示目标 section
+      const target = document.getElementById(id);
+      if (target) target.classList.add('active');
 
-        function renderPortfolio() {
-            const container = document.getElementById('portfolio-container');
-            let htmlContent = '';
+      // 同步 PC 导航按钮的 active 状态
+      document.querySelectorAll('#navLinks button').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.section === id);
+      });
 
-            projects.forEach(proj => {
-                const tagsHtml = proj.techStack.map(tech => `<span class="tech-tag">${tech}</span>`).join('');
-                
-                // 如果存在测试账号，渲染高亮的信息块
-                let accountHtml = '';
-                if (proj.testAccount) {
-                    accountHtml = `
-                        <div class="test-account-box">
-                            <p>👉 <strong>系统体验账号</strong></p>
-                            <p>账号：<span class="highlight">${proj.testAccount.account}</span> &nbsp;&nbsp;|&nbsp;&nbsp; 密码：<span class="highlight">${proj.testAccount.password}</span></p>
-                            <p class="note">注：${proj.testAccount.note}</p>
-                        </div>
-                    `;
-                }
+      // 同步移动端菜单按钮的 active 状态
+      document.querySelectorAll('#mobileMenu button').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mobile === id);
+      });
 
-                const linkHtml = proj.demoLink 
-                    ? `<a href="${proj.demoLink}" target="_blank" class="project-link">点击前往体验系统</a>` 
-                    : '';
+      // 切换 section 后滚动到顶部（移动端友好）
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-                htmlContent += `
-                    <div class="project-card">
-                        <h3 class="project-title">${proj.title}</h3>
-                        <div class="project-role">${proj.role}</div>
-                        <div class="tech-stack">${tagsHtml}</div>
-                        <p class="project-desc">${proj.description}</p>
-                        ${accountHtml}
-                        ${linkHtml}
-                    </div>
-                `;
-            });
+    /* ─────────────────────────────────────────
+       2. 移动端汉堡菜单开关
+       ───────────────────────────────────────── */
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('open');
+    }
 
-            container.innerHTML = htmlContent;
-        }
+    /* ─────────────────────────────────────────
+       3. 头像"优先级探测"函数
+          依次尝试 avatar.png → avatar.jpg → avatar.jpeg，
+          哪个先加载成功就用哪个；
+          三个都失败则保留占位文字，不影响布局。
+       ───────────────────────────────────────── */
+    function probeAvatar() {
+      // 按优先级排列的候选文件名列表
+      const candidates = ['avatar.png', 'avatar.jpg', 'avatar.jpeg'];
+      let index = 0;            // 当前尝试到第几个
+      const box = document.getElementById('avatarBox');
+      const placeholder = document.getElementById('avatarPlaceholder');
 
-        renderPortfolio();
+      /* 递归尝试下一个候选 */
+      function tryNext() {
+        // 所有候选都尝试过了，全部失败 → 保留占位
+        if (index >= candidates.length) return;
 
-        /**
-         * 模块 4：智能头像加载逻辑 (优先级探测函数)
-         */
-        const avatarImg = document.getElementById('avatar-img');
-        const avatarFallback = document.getElementById('avatar-fallback');
-        const avatarPaths = ['./avatar.png', './avatar.jpg', './avatar.jpeg'];
-        let currentPathIndex = 0;
+        const img = new Image();
+        img.onload = function () {
+          // ✅ 成功：把图片插入头像容器，并隐藏占位文字
+          img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;';
+          placeholder.style.display = 'none';
+          box.appendChild(img);
+        };
+        img.onerror = function () {
+          // ❌ 失败：尝试下一个候选
+          index++;
+          tryNext();
+        };
+        // 触发加载（与 HTML 文件同目录）
+        img.src = candidates[index];
+      }
 
-        function tryLoadAvatar() {
-            if (currentPathIndex >= avatarPaths.length) return; 
+      tryNext(); // 启动探测
+    }
 
-            const img = new Image();
-            img.src = avatarPaths[currentPathIndex];
+    /* ─────────────────────────────────────────
+       4. 页面加载完成后执行头像探测
+       ───────────────────────────────────────── */
+    window.addEventListener('DOMContentLoaded', probeAvatar);
 
-            img.onload = function() {
-                avatarImg.src = img.src;
-                avatarImg.style.display = 'block';
-                avatarFallback.style.display = 'none';
-            };
+    /* ─────────────────────────────────────────
+       5. 点击导航 Logo 也能回到首页（键盘可访问）
+       ───────────────────────────────────────── */
+    document.querySelector('.nav-logo').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') showSection('home');
+    });
+  </script>
 
-            img.onerror = function() {
-                currentPathIndex++;
-                tryLoadAvatar();
-            };
-        }
-
-        tryLoadAvatar();
-    </script>
 </body>
 </html>
