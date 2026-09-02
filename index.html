@@ -8,7 +8,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@600;700;800&display=swap"
+        rel="stylesheet" />
 
     <style>
         :root {
@@ -199,7 +201,7 @@
             /* 锚点跳转时补偿固定导航高度 */
         }
 
-        .section + .section {
+        .section+.section {
             border-top: 1px solid var(--border);
         }
 
@@ -928,14 +930,14 @@
                         <h1 class="hero-name">王逸<em>暄</em></h1>
 
                         <div class="hero-badges">
-                            <span class="hero-badge b1"><span class="dot"></span>精益岗</span>
+                            <span class="hero-badge b1"><span class="dot"></span>工程岗</span>
                             <span class="hero-badge b2"><span class="dot"></span>数字化岗</span>
                             <span class="hero-badge b3"><span class="dot"></span>AI 应用</span>
                         </div>
 
                         <p class="hero-tagline">
                             南京航空航天大学 <strong>211 本硕</strong>，<strong>工业工程与管理</strong> 硕士 ×
-                            <strong>信息管理与信息系统</strong> 本科。以<strong>精益思维</strong>驱动
+                            <strong>信息管理与信息系统</strong> 本科。以<strong>工程思维</strong>驱动
                             <strong>数字化落地</strong>，深耕 <strong>Multi-Agent</strong> 与 <strong>RAG</strong>，
                             具备从方案设计到线上灰度部署的完整工程闭环能力。
                         </p>
@@ -995,19 +997,28 @@
 
                         <ul class="proj-list">
                             <li>
-                                <span><strong>项目背景：</strong>面向课程答疑场景，传统辅导存在重复问题重复解答、人力成本高的问题。核心挑战在于定位出<strong>多角色串行上下文丢失、历史教学经验无法复用、无效信息挤占算力</strong>三大浪费点，单轮问答冗余信息占比超 <span class="hl">80%</span>。</span>
+                                <span><strong>项目背景：</strong>面向课程答疑场景，传统辅导存在重复问题重复解答、人力成本高的问题。核心挑战在于定位出<strong>多角色串行上下文丢失、历史教学经验无法复用、无效信息挤占算力</strong>三大浪费点，单轮问答冗余信息占比超
+                                    <span class="hl">80%</span>。</span>
                             </li>
                             <li>
-                                <span><strong>教辅 multi-agent 工作流：</strong>自研「意图分析者 → 知识检索者 → 讲解者 → 风格审校者」流水线，审校不通过回退到讲解者 2 次强制收敛；每个 Agent 独立系统提示 + 硬约束 + 角色化记忆切片，整链路 token 约 <span class="hl">8.6k/问答</span>。</span>
+                                <span><strong>教辅 multi-agent 工作流：</strong>自研「意图分析者 → 知识检索者 → 讲解者 → 风格审校者」流水线，审校不通过回退到讲解者
+                                    2 次强制收敛；每个 Agent 独立系统提示 + 硬约束 + 角色化记忆切片，整链路 token 约 <span
+                                        class="hl">8.6k/问答</span>。</span>
                             </li>
                             <li>
-                                <span><strong>三层图式集体记忆与双向遍历：</strong>自研 insight/query/interaction 三层有向图记录跨问答教学经验链；粗粒度入口用 text-embedding-v3 做 top-k + 1-hop 邻居扩展，向上集合求交得候选经验，向下用 LLM 子图 sparsifier 按提问条件抽稀 top-M 历史问答，再按 Agent 角色二次过滤分发。单课程线累积约 <span class="hl">24K 提问 / 12K 经验 / 58K utterance</span> 节点，单次问答有效记忆 token 从 <span class="hl">1.6 万压至 2200</span>。</span>
+                                <span><strong>三层图式集体记忆与双向遍历：</strong>自研 insight/query/interaction 三层有向图记录跨问答教学经验链；粗粒度入口用
+                                    text-embedding-v3 做 top-k + 1-hop 邻居扩展，向上集合求交得候选经验，向下用 LLM 子图 sparsifier 按提问条件抽稀
+                                    top-M 历史问答，再按 Agent 角色二次过滤分发。单课程线累积约 <span class="hl">24K 提问 / 12K 经验 / 58K
+                                        utterance</span> 节点，单次问答有效记忆 token 从 <span class="hl">1.6 万压至
+                                        2200</span>。</span>
                             </li>
                             <li>
-                                <span><strong>多 MAS 框架插件化集成与图自演化：</strong>统一抽象基类收敛记忆接口，零侵入接入 3 类教辅 MAS 框架；问答结束后自动写回三层图，经验通过 LLM 输出的删除/修改/新增/确认四类操作动态演化，配合 FINCH 聚类合并同主题经验。</span>
+                                <span><strong>多 MAS 框架插件化集成与图自演化：</strong>统一抽象基类收敛记忆接口，零侵入接入 3 类教辅 MAS
+                                    框架；问答结束后自动写回三层图，经验通过 LLM 输出的删除/修改/新增/确认四类操作动态演化，配合 FINCH 聚类合并同主题经验。</span>
                             </li>
                             <li>
-                                <span><strong>线上成果：</strong>灰度运行 4 周，相似误解的经验复用率从 6.9% 升至 <span class="hl">36.4%</span>。</span>
+                                <span><strong>线上成果：</strong>灰度运行 4 周，相似误解的经验复用率从 6.9% 升至 <span
+                                        class="hl">36.4%</span>。</span>
                             </li>
                         </ul>
 
@@ -1032,16 +1043,23 @@
 
                         <ul class="proj-list">
                             <li>
-                                <span><strong>项目背景：</strong>承接商业标书合规智能评估系统，替代传统人工审核。核心挑战在于 OCR 转文本链路繁琐冗长，丢失版面布局、图表、特殊字体等视觉信息；且 top-k 多页含噪下单图模型难以跨页聚合。</span>
+                                <span><strong>项目背景：</strong>承接商业标书合规智能评估系统，替代传统人工审核。核心挑战在于 OCR
+                                    转文本链路繁琐冗长，丢失版面布局、图表、特殊字体等视觉信息；且 top-k 多页含噪下单图模型难以跨页聚合。</span>
                             </li>
                             <li>
-                                <span><strong>页面向量检索器：</strong>双塔页级检索，文本问题与页面图像统一由 VLM 编码，对末层 hidden states 做位置加权平均池化，基于 InfoNCE + in-batch negatives 微调。MRR@10 达 <span class="hl">77.91</span>，优于 BM25（65.23）、NVEmbed-v2（75.24）、MiniCPMOCR（74.78）、SigLIP（71.68）、ColPali（76.54）。</span>
+                                <span><strong>页面向量检索器：</strong>双塔页级检索，文本问题与页面图像统一由 VLM 编码，对末层 hidden states 做位置加权平均池化，基于
+                                    InfoNCE + in-batch negatives 微调。MRR@10 达 <span class="hl">77.91</span>，优于
+                                    BM25（65.23）、NVEmbed-v2（75.24）、MiniCPMOCR（74.78）、SigLIP（71.68）、ColPali（76.54）。</span>
                             </li>
                             <li>
-                                <span><strong>多页视觉生成器：</strong>对 top-k 页面分别采用单图水平拼接、逐页生成 + 困惑度倒数与检索分数加权选择，以及 MiniCPMV 2.6 / GPT-4o 多图推理；多图 MiniCPMV 2.6 top-3 平均准确率 <span class="hl">56.12</span>，优于 GPT-4o(OCR) 45.91 与拼接方案 29–36。</span>
+                                <span><strong>多页视觉生成器：</strong>对 top-k 页面分别采用单图水平拼接、逐页生成 + 困惑度倒数与检索分数加权选择，以及 MiniCPMV
+                                    2.6 / GPT-4o 多图推理；多图 MiniCPMV 2.6 top-3 平均准确率 <span class="hl">56.12</span>，优于
+                                    GPT-4o(OCR) 45.91 与拼接方案 29–36。</span>
                             </li>
                             <li>
-                                <span><strong>训练数据构建：</strong>整合内部多类型文档问答对并脱敏，用 GPT-4o 按页生成多角度 query-answer（每页 ≤6 对）扩充，过滤脱离文档无法唯一定位的模糊问法。离线单页处理 <span class="hl">121ms</span>，较 OCR 编码链路降低约 <span class="hl">58%</span>。</span>
+                                <span><strong>训练数据构建：</strong>整合内部多类型文档问答对并脱敏，用 GPT-4o 按页生成多角度 query-answer（每页 ≤6
+                                    对）扩充，过滤脱离文档无法唯一定位的模糊问法。离线单页处理 <span class="hl">121ms</span>，较 OCR 编码链路降低约 <span
+                                        class="hl">58%</span>。</span>
                             </li>
                         </ul>
 
@@ -1078,16 +1096,20 @@
 
                         <ul class="proj-list">
                             <li>
-                                <span><strong>项目背景：</strong>参与内部技术文档 AI 助手原型建设，针对高端制造场景技术文档层级复杂、检索效率低、条款定位不准的痛点，以<strong>精益思路</strong>优化文档管理与检索流程，降低信息获取成本。</span>
+                                <span><strong>项目背景：</strong>参与内部技术文档 AI
+                                    助手原型建设，针对高端制造场景技术文档层级复杂、检索效率低、条款定位不准的痛点，以<strong>工程思维</strong>优化文档管理与检索流程，降低信息获取成本。</span>
                             </li>
                             <li>
-                                <span><strong>文档解析与建库：</strong>针对图表交错文档设计 Parent-Child 层级切分，结合 Multi-representation 融合多模态表征，构建高效层级向量索引，条款定位准确率由 62% 升至 <span class="hl">78%</span>。</span>
+                                <span><strong>文档解析与建库：</strong>针对图表交错文档设计 Parent-Child 层级切分，结合 Multi-representation
+                                    融合多模态表征，构建高效层级向量索引，条款定位准确率由 62% 升至 <span class="hl">78%</span>。</span>
                             </li>
                             <li>
-                                <span><strong>多路召回与重排：</strong>搭建 BM25 + Dense 双路引擎兼顾型号精准匹配与语义改写，采用 RRF 融合异构结果并去重，结合 Cross-Encoder 深度语义重排，长尾术语命中率 Recall@5 达 <span class="hl">92%</span>。</span>
+                                <span><strong>多路召回与重排：</strong>搭建 BM25 + Dense 双路引擎兼顾型号精准匹配与语义改写，采用 RRF 融合异构结果并去重，结合
+                                    Cross-Encoder 深度语义重排，长尾术语命中率 Recall@5 达 <span class="hl">92%</span>。</span>
                             </li>
                             <li>
-                                <span><strong>防幻觉与生成编排：</strong>采用 Self-RAG 与 CoT 赋予 Agent 检索置信度评估能力，集成溯源（Citation）与安全回退机制，从源头遏制严谨硬件工程场景下的数据幻觉。</span>
+                                <span><strong>防幻觉与生成编排：</strong>采用 Self-RAG 与 CoT 赋予 Agent
+                                    检索置信度评估能力，集成溯源（Citation）与安全回退机制，从源头遏制严谨硬件工程场景下的数据幻觉。</span>
                             </li>
                         </ul>
 
@@ -1112,16 +1134,19 @@
 
                         <ul class="proj-list">
                             <li>
-                                <span><strong>项目背景：</strong>针对传统网络运维人工依赖度高、故障排查慢、巡检效率低、风险发现滞后的问题，参与搭建 AI 驱动的智能运维体系，推动运维模式从<strong>被动响应向主动预防</strong>转型。</span>
+                                <span><strong>项目背景：</strong>针对传统网络运维人工依赖度高、故障排查慢、巡检效率低、风险发现滞后的问题，参与搭建 AI
+                                    驱动的智能运维体系，推动运维模式从<strong>被动响应向主动预防</strong>转型。</span>
                             </li>
                             <li>
-                                <span><strong>数据层工具节点开发：</strong>基于 MySQL 构建统一运维数据仓库，梳理资产、性能、告警、工单等核心数据维度，设计标准化查询与调用接口，打通数据孤岛，为 AI 智能分析提供稳定数据支撑。</span>
+                                <span><strong>数据层工具节点开发：</strong>基于 MySQL
+                                    构建统一运维数据仓库，梳理资产、性能、告警、工单等核心数据维度，设计标准化查询与调用接口，打通数据孤岛，为 AI 智能分析提供稳定数据支撑。</span>
                             </li>
                             <li>
                                 <span><strong>设备健康评估体系：</strong>构建设备健康度量化评估指标体系，设计多维度异常判定规则与风险分级标准，开发自动化健康分析报告机制，实现设备风险的提前识别与闭环管理。</span>
                             </li>
                             <li>
-                                <span><strong>Agent 工作流协同：</strong>参与工单智能诊断、定时智能巡检 Agent 工作流设计，协助搭建「Java 平台调度 + Python Agent 智能执行」双层技术架构，配合完成 RAG 知识库与记忆池对接，实现排障经验的沉淀与复用。</span>
+                                <span><strong>Agent 工作流协同：</strong>参与工单智能诊断、定时智能巡检 Agent 工作流设计，协助搭建「Java 平台调度 + Python
+                                    Agent 智能执行」双层技术架构，配合完成 RAG 知识库与记忆池对接，实现排障经验的沉淀与复用。</span>
                             </li>
                         </ul>
 
